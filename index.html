@@ -1,0 +1,136 @@
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anniversary Countdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #40061e; /* Dark red background color */
+            color: #ffffff; /* Smooth white text color */
+            text-align: center;
+            padding: 50px;
+            overflow: hidden; /* Prevent scrollbars from appearing */
+        }
+        h1 {
+            color: #FF69B4; /* Soft pink for the heading */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        #countdown {
+            font-size: 2em;
+            margin: 20px;
+            color: #ffffff; /* Smooth white for countdown text */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+        .rosePetal {
+            position: absolute;
+            font-size: 30px; /* Adjust size of the flower emoji */
+            display: block;
+            pointer-events: none; /* Prevent interaction with the petals */
+        }
+        /* Fireworks animation styles */
+        .firework {
+            position: absolute;
+            width: 20vw;
+            height: 20vw;
+            border-radius: 50%;
+            animation: explode 2s ease-out;
+            opacity: 1;
+        }
+        @keyframes explode {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>2. Yıl Dönümümüze</h1>
+    <div id="countdown">Geri sayım burada görünecek!</div>
+    <iframe style="border-radius:12px" 
+        src="https://open.spotify.com/embed/playlist/508cu0sffeMa0MzZAkPmhy?utm_source=generator&theme=0" 
+        width="75%" 
+        height="352" 
+        frameborder="0" 
+        allow="autoplay, clipboard-write, encrypted-media" 
+        loading="eager">
+    </iframe>
+    <script>
+        const anniversaryDate = new Date('2024-11-19T00:00:00');
+        let lastMinute = null; // Track the last minute displayed
+
+        function updateCountdown() {
+            const now = new Date();
+            const timeDiff = anniversaryDate - now;
+
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerText = `${days} gün, ${hours} saat, ${minutes} dakika, ${seconds} saniye kaldı!`;
+
+            // Trigger fireworks each time the minute decreases
+            if (minutes !== lastMinute) {
+                triggerFireworks();
+                lastMinute = minutes; // Update the last tracked minute
+            }
+
+            if (timeDiff < 0) {
+                document.getElementById('countdown').innerText = "Bugün bizim özel günümüz!";
+            }
+        }
+
+        function dropPetal() {
+            const flowers = ['🌹', '🌷', '🌺', '🌼', '🌸', '💐', '🏵️', '🪷', '🍀', '🪻'];
+
+            for (let i = 0; i < 3; i++) { // Create 3 petals at a time
+                const petal = document.createElement('div');
+                petal.className = 'rosePetal';
+                petal.innerText = flowers[Math.floor(Math.random() * flowers.length)]; // Random flower
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.top = '0px';
+                document.body.appendChild(petal);
+
+                let falling = 0;
+                const fallInterval = setInterval(() => {
+                    falling += 2; // Adjust the falling speed
+                    petal.style.top = falling + 'px';
+                    if (falling > window.innerHeight) {
+                        clearInterval(fallInterval);
+                        document.body.removeChild(petal); // Remove petal after it falls
+                    }
+                }, 50); // Increase the interval to slow down the fall
+            }
+        }
+
+        function triggerFireworks() {
+            const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FF8C33', '#33FFC4'];
+
+            for (let i = 0; i < 10; i++) { // Generate multiple fireworks
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = Math.random() * 80 + 'vw'; // Adjust for positioning within viewport
+                firework.style.top = Math.random() * 80 + 'vh';
+                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; // Random color
+                document.body.appendChild(firework);
+
+                // Remove the firework after animation
+                setTimeout(() => {
+                    document.body.removeChild(firework);
+                }, 800); // Matches the animation duration
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // İlk çağrı
+
+        // Create new petals every 1000 milliseconds (1 second)
+        setInterval(dropPetal, 1000);
+    </script>
+</body>
+</html>
+
+
