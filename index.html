@@ -1,136 +1,126 @@
-
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anniversary Countdown</title>
+    <title>❤️💛💚💙💜🖤🤍</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #40061e; /* Dark red background color */
-            color: #ffffff; /* Smooth white text color */
+            background-color: #40061e;
+            color: #ffffff;
             text-align: center;
             padding: 50px;
-            overflow: hidden; /* Prevent scrollbars from appearing */
+            overflow: hidden;
         }
         h1 {
-            color: #FF69B4; /* Soft pink for the heading */
+            color: #FF69B4;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
         #countdown {
             font-size: 2em;
             margin: 20px;
-            color: #ffffff; /* Smooth white for countdown text */
+            color: #ffffff;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+        #romanticLetter {
+            font-size: 1.5em;
+            margin: 20px auto;
+            max-width: 70%;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #40061e;
+            border: 5px solid transparent;
+            border-radius: 15px;
+            text-align: left;
+            position: relative;
         }
         .rosePetal {
             position: absolute;
-            font-size: 30px; /* Adjust size of the flower emoji */
+            font-size: 30px;
             display: block;
-            pointer-events: none; /* Prevent interaction with the petals */
-        }
-        /* Fireworks animation styles */
-        .firework {
-            position: absolute;
-            width: 20vw;
-            height: 20vw;
-            border-radius: 50%;
-            animation: explode 2s ease-out;
-            opacity: 1;
-        }
-        @keyframes explode {
-            0% { transform: scale(0.5); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
     <h1>2. Yıl Dönümümüze</h1>
-    <div id="countdown">Geri sayım burada görünecek!</div>
-    <iframe style="border-radius:12px" 
+    <div id="countdown"></div>
+    <iframe id="playlist" style="border-radius:12px" 
         src="https://open.spotify.com/embed/playlist/508cu0sffeMa0MzZAkPmhy?utm_source=generator&theme=0" 
         width="75%" 
         height="352" 
         frameborder="0" 
-        allow="autoplay, clipboard-write, encrypted-media" 
+        allow="autoplay; clipboard-write; encrypted-media" 
         loading="eager">
     </iframe>
+    <div id="romanticLetter" style="display: none;">
+        <p>Hayatımmm,</p>
+        <p>Sen benim en büyük hediyem, mucizem, umudum, mutluluğum, anlamım ve en kıymetli çiçeğimsin. Seninle geçen her saniye, her dakika, her saat, her gün benim için paha biçilemez bir hediye, seninle olmak, seninle bu zamanı paylaşmak başıma gelen en kıymetli, en güzel, en anlamlı şey. Bu mesajı görecek misin bundan bile emin değilim ama çok mutluyum uğraşırken. Umarım hediyemi beğenirsin ve umarım seni mutlu etmiştir hayatım.
+	</p>
+        <p>Yağan çiçekleri, sana olan sevgimin ufacıkk bir yansıması olarak düşünmüştüm. Her biri için seni sonsuz seviyorum ve öpüyorum. Umarım sana olan sevgimin sonsuzluğunu birazcık olsun hissettirebilir.
+	</p>
+        <p>Beraber musmutlu, huzurlu, aşk dolu yıllara <strong>çiçeğim<strong>...</p> 
+    </div>
     <script>
-        const anniversaryDate = new Date('2024-11-19T00:00:00');
-        let lastMinute = null; // Track the last minute displayed
+        const relationshipStart = new Date('2022-11-19T00:00:00'); // İlişkinin başlangıç tarihi
+        let currentAnniversary = new Date('2023-11-19T00:00:00'); // İlk yıl dönümü
+        let anniversaryNumber = 1; // İlk yıl dönümünden itibaren başlayacak
 
         function updateCountdown() {
             const now = new Date();
-            const timeDiff = anniversaryDate - now;
+            const timeDiff = currentAnniversary - now;
 
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+            if (timeDiff < 0 && timeDiff >= -86400000) {
+                document.getElementById('countdown').innerText = "Bugün bizim yıl dönümümüz!";
+                document.getElementById('playlist').style.display = "none";
+                document.getElementById('romanticLetter').style.display = "block";
 
-            document.getElementById('countdown').innerText = `${days} gün, ${hours} saat, ${minutes} dakika, ${seconds} saniye kaldı!`;
+                // Başlığı güncelleme
+                const futureYears = `${anniversaryNumber}${anniversaryNumber}`;
+                document.querySelector('h1').innerText = `Darısı ${futureYears}. Senemize`;
+            } else if (timeDiff < -86400000) {
+                currentAnniversary.setFullYear(currentAnniversary.getFullYear() + 1);
+                anniversaryNumber++;
+                document.getElementById('countdown');
 
-            // Trigger fireworks each time the minute decreases
-            if (minutes !== lastMinute) {
-                triggerFireworks();
-                lastMinute = minutes; // Update the last tracked minute
-            }
+                // Başlığı güncelleme
+                document.querySelector('h1').innerText = `${anniversaryNumber}. Yıl Dönümümüze`;
+            } else {
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-            if (timeDiff < 0) {
-                document.getElementById('countdown').innerText = "Bugün bizim özel günümüz!";
+                document.getElementById('countdown').innerText = `${days} gün, ${hours} saat, ${minutes} dakika, ${seconds} saniye kaldı!`;
             }
         }
 
         function dropPetal() {
-            const flowers = ['🌹', '🌷', '🌺', '🌼', '🌸', '💐', '🏵️', '🪷', '🍀', '🪻'];
-
-            for (let i = 0; i < 3; i++) { // Create 3 petals at a time
+            const flowers = ['🌹', '🌷', '🌺', '🌸', '💐', '🏵️', '🪷', '🍀', '🪻'];
+            for (let i = 0; i < 3; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'rosePetal';
-                petal.innerText = flowers[Math.floor(Math.random() * flowers.length)]; // Random flower
+                petal.innerText = flowers[Math.floor(Math.random() * flowers.length)];
                 petal.style.left = Math.random() * 100 + 'vw';
                 petal.style.top = '0px';
                 document.body.appendChild(petal);
 
                 let falling = 0;
                 const fallInterval = setInterval(() => {
-                    falling += 2; // Adjust the falling speed
+                    falling += 2;
                     petal.style.top = falling + 'px';
                     if (falling > window.innerHeight) {
                         clearInterval(fallInterval);
-                        document.body.removeChild(petal); // Remove petal after it falls
+                        document.body.removeChild(petal);
                     }
-                }, 50); // Increase the interval to slow down the fall
-            }
-        }
-
-        function triggerFireworks() {
-            const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A6', '#FF8C33', '#33FFC4'];
-
-            for (let i = 0; i < 10; i++) { // Generate multiple fireworks
-                const firework = document.createElement('div');
-                firework.className = 'firework';
-                firework.style.left = Math.random() * 80 + 'vw'; // Adjust for positioning within viewport
-                firework.style.top = Math.random() * 80 + 'vh';
-                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]; // Random color
-                document.body.appendChild(firework);
-
-                // Remove the firework after animation
-                setTimeout(() => {
-                    document.body.removeChild(firework);
-                }, 800); // Matches the animation duration
+                }, 50);
             }
         }
 
         setInterval(updateCountdown, 1000);
-        updateCountdown(); // İlk çağrı
-
-        // Create new petals every 1000 milliseconds (1 second)
         setInterval(dropPetal, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
-
-
